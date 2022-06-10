@@ -42,7 +42,7 @@ class FirestoreApi {
       final userData = userDoc.data();
       log.v('User found. Data: $userData');
 
-      return User.fromJson(userData!);
+      return User.fromJson(userData! as Map<String, dynamic>);
     } else {
       throw FirestoreApiException(
           message:

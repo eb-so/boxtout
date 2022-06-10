@@ -4,11 +4,14 @@
 // StackedLoggerGenerator
 // **************************************************************************
 
+// ignore_for_file: avoid_print
+
 /// Maybe this should be generated for the user as well?
 ///
 /// import 'package:customer_app/services/stackdriver/stackdriver_service.dart';
-import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
+
+const bool _isReleaseMode = bool.fromEnvironment("dart.vm.product");
 
 class SimpleLogPrinter extends LogPrinter {
   final String className;
@@ -46,7 +49,7 @@ class SimpleLogPrinter extends LogPrinter {
 
     for (var line in output.split('\n')) {
       result.addAll(pattern.allMatches(line).map((match) {
-        if (kReleaseMode) {
+        if (_isReleaseMode) {
           return match.group(0)!;
         } else {
           return color!(match.group(0)!);
@@ -62,8 +65,8 @@ class SimpleLogPrinter extends LogPrinter {
       var currentStack = StackTrace.current;
       var formattedStacktrace = _formatStackTrace(currentStack, 3);
 
-      var realFirstLine =
-          formattedStacktrace?.firstWhere((line) => line.contains(className));
+      var realFirstLine = formattedStacktrace
+          ?.firstWhere((line) => line.contains(className), orElse: () => "");
 
       var methodName = realFirstLine?.replaceAll('$className.', '');
       return methodName;
@@ -120,13 +123,6 @@ class MultipleLoggerOutput extends LogOutput {
   }
 }
 
-class LogAllTheTimeFilter extends LogFilter {
-  @override
-  bool shouldLog(LogEvent event) {
-    return true;
-  }
-}
-
 Logger getLogger(
   String className, {
   bool printCallingFunctionName = true,
@@ -135,7 +131,6 @@ Logger getLogger(
   String? showOnlyClass,
 }) {
   return Logger(
-    filter: LogAllTheTimeFilter(),
     printer: SimpleLogPrinter(
       className,
       printCallingFunctionName: printCallingFunctionName,
@@ -144,7 +139,7 @@ Logger getLogger(
       exludeLogsFromClasses: exludeLogsFromClasses,
     ),
     output: MultipleLoggerOutput([
-      ConsoleOutput(),
+      if (!_isReleaseMode) ConsoleOutput(),
     ]),
   );
 }

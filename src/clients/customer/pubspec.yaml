@@ -30,8 +30,8 @@ dependencies:
 
   # Firebase
   firebase_core: ^1.0.2
-  firebase_auth: ^1.0.1
-  cloud_firestore: ^1.0.5
+  firebase_auth: ^3.3.19
+  cloud_firestore: ^3.1.17
 
   # Authentication
   stacked_firebase_auth: ^0.2.2+1
@@ -41,12 +41,12 @@ dependencies:
   stacked_services: ^0.8.0-nullsafety.1
 
   # UI packages
-  auth_buttons: ^1.0.0
+  auth_buttons: ^2.0.4
 
   # data models
-  freezed_annotation: ^0.14.1
+  freezed_annotation: ^2.0.3
   json_annotation: ^4.0.1
-  flutter_dotenv: ^4.0.0-nullsafety.1
+  flutter_dotenv: ^5.0.2
 
   box_ui:
     path: ../box_ui/
@@ -56,11 +56,11 @@ dev_dependencies:
     sdk: flutter
 
   build_runner:
-  stacked_generator: ^0.4.1
+  stacked_generator: ^0.7.5
 
   # data models
-  freezed: ^0.14.1+2
-  json_serializable: ^4.1.0
+  freezed: ^2.0.3+1
+  json_serializable: ^6.2.0
 
   places_service: ^0.1.0
 
